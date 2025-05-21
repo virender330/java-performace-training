@@ -1,0 +1,228 @@
+Training
+
+Rod Johnson - introduction dynamic binding
+
+https://lms.springpeople.com/products/course/learner/14858/component/attachments-documents/52522
+
+Agile programming - open for extension closed for modification
+
+We can’t have bulky objects
+
+Dynamic vs static binding - interface
+
+Various type of relationships
+
+Kind of
+Role of
+Subjection
+
+Dynamic proxy
+
+package walmart;
+
+public class Ex1 {
+	public static void main(String[] args) {
+		BadPaintBrush brush=new BadPaintBrush();
+		brush.doPaint(1);
+
+		PaintBrush goodbrush=new PaintBrush();
+		//Dependency injection
+		goodbrush.paint=new GreenPaint();
+		goodbrush.doPaint();
+	}
+}
+class BadPaintBrush{
+	public void doPaint(int i) {
+		if(i==1) {
+			System.out.println("red colour...");
+		}
+		else if(i==2) {
+			System.out.println("blue colour...");
+		}
+	}
+}
+/*
+1. covert the condition to classes.
+2. Group them under a heirarchy
+3. Create a association
+*/
+
+abstract class Paint{
+
+}
+class RedPaint extends Paint{
+
+}
+class BluePaint extends Paint{
+
+}
+class GreenPaint extends Paint{
+
+}
+class PaintBrush {
+	Paint paint;
+	public void doPaint() {
+		System.out.println(paint);
+	}
+}
+
+
+Day 2
+
+Class loaders
+Just in time compiler
+Memory
+
+
+Handle exceptions through visitor pattern
+
+Garbage collection works only on heap
+
+Pc register - tracks the thread execution
+
+Native method stack - for native method calls
+
+
+Check list for performance optimisation
+Gc
+Ds Collection
+String tuning
+Multithreading
+IO bound code
+
+
+Spring framework
+Inverse true in spring spa - should be false ?
+
+Look at caching
+
+Connection pool -
+http response time
+Compress payload
+ASync message queue
+Load balancing
+
+Tools for performance
+
+Command line utilities
+
+
+Optional - loose coupling and performance on larger if else blocks, avoid null pointer exeception
+
+String - intern keyword
+String pool
+String duplication java arg - java 9
+String join method better than +
+Use format method of spring
+
+
+
+Datetime
+
+
+Atomic classes and locks & atomic reference
+
+Garbage collection
+Serial vs parallel gc - parallel gc for multiple threads
+G1gc
+Zgc - ultra low pass time - handles large heaps and runs concurrently
+
+Which version of gc is running java -XX:+PrintCommandLineFlags -version
+
+-XX:+UseParallelGC
+-XX:+UseG1GC
+-XX:+UseZGC
+-XX:+SerialGC
+
+
+
+
+======day 3
+jre = jvm + libraris( rt.jar)
+Idk = jre  + compiler + development tools
+
+jre jvm and idk are platform dependent and only java programs are platform independent.
+
+
+Class loader - load .class files in memory. Also executed the static block
+
+Bifurcation of memory was done with g1gc
+Young generation - newly created objects
+Objects that survive gc are move S0 and s1
+
+Major garbage collection works in old generation - slower and heavy
+
+Metaspace was earlier called as perigean
+
+
+Parallel gc
+Compaction will not happen so not optimised
+
+If large data in heap then go for g1gc
+
+If less used then use parallel gc
+
+ZGC - highly optimised, designed for ultra low pass times, again used for very heavily used then use zgc
+
+Upto jdk17 only g1gc
+
+ZGC is latest
+
+G1gc is parallel and default
+
+G1gc - good in performance with multiple core processor
+
+G1gc  is generational
+
+Parallel gc is not region based
+
+-XX:+PrintCommandLineFlags -XX:+PrintGCDetails
+
+Check logs in chatgpt
+
+1. Move to executor framework
+2. Move to atomic elements
+3. use latest class like phasar and cyclic barrier
+
+Visual vm to analyse heap log , jprofiler also there
+
+Collection
+Weak references
+Growing collection
+
+
+-verbose:gc
+
+-Xms512m -Xmx512m
+
+-Xms4g -Xmx4g -XX:+UseG1GC -XX:MaxGCPauseMillis=200 XX:InitiatingHeapOccupancyPercent=45
+
+
+<dependency>
+<groupId>io.dropwizard.metrics</groupId>
+<artifactId>metrics-core</artifactId>
+<version>4.2.18</version> <!-- Replace with
+the latest version if needed -->
+</dependency>
+<dependency>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-core</artifactId>
+<version>1.11.3</version> <!-- Replace with
+the latest version if needed -->
+</dependency>
+<dependency>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-registry-prometheus</artifactId>
+<version>1.11.3</version> <!-- Replace with
+the latest version if needed -->
+</dependency>
+
+<dependency>
+<groupId>org.openjdk.jmh</groupId>
+<artifactId>jmh-generator-annprocess</artifactId>
+<version>1.37</version>
+<scope>test</scope>
+</dependency>
+
+
+Phaser class

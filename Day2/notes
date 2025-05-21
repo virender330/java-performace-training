@@ -1,0 +1,162 @@
+use strategy pattern to remove if else
+use visitor to handle exception
+
+no code with if else, try catch with exception inside that, without container, without multithreading
+
+check list after if else
+Response time - time taken to process a single request
+throughput - how many task or request are processed within a unit of time.unit can be second, minute or hour
+response time - total time taken including network time
+cpu - percentage of cpu used, cpu bound or io bound
+memory management - heap used, stack size, meta size
+
+priority blocking dequeqe slows down compare to linked list
+
+with priority queue gc pause time is more but with linked list frequent fc but less pause time
+
+parallel gc with linked list
+priority queue - g1gc
+
+
+class loader - loads .class into memory
+
+part of jvm
+
+bootstrap class loader - load core java classes - lang package etc.
+extension class loader - jre lib folder contains extension package those classes are loaded
+application class loader - loads user defined classes, directly related to container as classes are loaded into container,
+frameworks contains container, for java earlier people use to write container
+
+hibernate container, jpa container, ejb container
+
+lazy or eager loading
+
+
+memory areas -
+heap is xms or xmx - x is extended to max limit s is min
+heap is shared across threads
+
+prototype pattern, flyweight, singleton, weak referencing, strong, phantom referencing  garbage collection
+
+
+stack ? - also referred as method area, stores class metadata
+
+jvm stack (per thread)- method calls are processed area
+
+garbage collection works only on heap
+
+pc register - tracking agent for threads execution
+
+except heap all are stack
+
+native method stack
+
+
+
+execution engine
+
+interpreter - execute statement line by line
+JIT (just in time compiler)
+
+
+GC engine - reclaims unused memory
+
+
+---checklist
+first check garbage collection  - analyse the gc logs and tune garbage collection
+go for data structures - change collection classes from old to new.
+string management - use latest features after java 9
+multithreading - use executor service, concurrency api, don't use serialization (not related to multithreading )
+use atomic integer, atomic reference
+outbound - IO bound application, use NIO non blocking IO
+database tuning - use connection pooling
+
+
+above list for core java
+
+
+enterprise java
+eager loading, batch process, inverse = true in jpa
+caching - see if we can use secondary cache - redis etc
+connection pool, use gzip, can we have client cache, database optimisation
+async message queues
+balancing the load on multiple machines
+
+tools for performance tuning
+profiling- visual vm, jprofiler, nat
+gcez, gcv1 for garbage collection
+apache jmeter
+eclipse nat - analyse heap dump
+java command line utilities
+
+
+
+program for optional
+
+optional.ofNullable(obj).map().orElse("its null")
+
+Optional.ofNullable(value).ifPresentOrElse
+
+Optional provides loose coupling ?
+
+Optional performs better for complex if else
+
+
+
+Optional - loose coupling and performance on larger if else blocks, avoid null pointer exeception
+
+String program
+String builder vs String buffer
+
+String - intern keyword
+String pool
+String duplication java arg - java 9
+String join method better than +
+Use format method of spring
+
+
+
+datetime class program
+
+
+java history - first decade - survival then compete now focus on performance
+
+
+
+Threads - two ways to create thread and runnable, now we use executor framework
+
+runnable is not a way tp create a thread but a way to attach a job to thread
+
+what is callable use if we can crete thread through runnable
+
+atomic integer program
+
+atomic reference program
+
+
+
+serial gc - good for small data size
+paraller gc -  for multithread apps
+g1gc (default) - suitale for large app with low pause time
+xzc - very large app and ultra low pause time
+
+why memory size reduced for grandfather program
+
+reduce for g1gc
+increase for parallel gc
+
+upto java 1.3 we were using serial gc by default
+parallel gc came in 1.8
+1.9 g1gc
+xzc
+23 chenado gc ?
+
+
+Which version of gc is running java -XX:+PrintCommandLineFlags -version
+
+-XX:+UseParallelGC
+-XX:+UseG1GC
+-XX:+UseZGC
+-XX:+SerialGC
+
+

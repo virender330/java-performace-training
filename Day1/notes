@@ -1,0 +1,104 @@
+
+waterfall vs agile
+
+
+agile programming - closed for modification, open for extension
+requirement keeps on changing in agile
+waterfall is good if the requirements are locked.
+
+don't use if else
+
+ways to eliminate if else -> breaks ocp
+
+use strategy design pattern
+
+advantages of inheritance
+1.split the classes into part whole hierarchy - in order to do composition - compose objects at runtime
+2.remove if else (if else impacts performance)
+3.to use composition
+4. can also achieve polymorphic query (can be achiveed through method overriding)
+5. object reusability
+
+all combine is liskov
+
+use strategy design pattern
+optional can also be used to remove if else
+use lambdas in right way can also remove if else
+
+
+Interface -> common contract, used for abstraction and dynamic binding (dynamic proxy ?), multiple inheritance,
+loose coupling
+
+create kind of relationship or inheritance with abstract classes only
+
+inheritance is kind of relationship (kind can be only 1 so multiple inheritance anyways not required)
+association
+aggregation
+composition
+generalization - where the child can substitute a parent
+realisation -
+
+multiple inhe
+
+
+both abstract and interface are parent classes.
+
+abstract classes are compile time bounded.
+interface is not kind of but role of.
+
+roles are action nouns
+abstract classes are classification nouns
+
+
+roles are runtime whereas abstract classes are compile time.
+
+interfaces bring dynamic binding
+abstract classes bring static binding
+
+
+interface is a special abstract class whose activity is promised to executed which implements it.
+
+
+doctor-college example
+
+
+i know you and you know me - bidirectional association
+I know modi but he doesn't know me  - unidirectional
+
+association is lightly coupled.
+
+
+aggregation is part of
+has a relationship
+if we are not adding any value then association
+otherwise aggregation
+
+
+composition the other object will not
+
+dynamic binding is the only reason to go for interfaces.
+
+
+dynamic proxy(only possible through interface) use reflection - this type of binding is called subjection
+
+
+
+
+=====
+
+stick & dog program
+
+use visitor pattern for exception ?
+
+parametrized query is having performance overhead  - if same query is getting used multiple times then why there will be a overhead
+
+
+
+
+
+with implements as well we get the benefit of child parent but this is not inheritance but role
+
+interfaces should always be use with dynamic proxy
+
+
+only rod jhonson had described about dynamic proxy but unfortunately with name introduction

@@ -1,0 +1,263 @@
+Day2
+
+
+package walmart;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+public class DateTimeDemo {
+	public static void main(String[] args) {
+		long startTime=System.nanoTime();
+		Date oldDate=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
+		String formatdate=sdf.format(oldDate);
+		System.out.println(formatdate);
+		long endTime=System.nanoTime();
+		System.out.println("Elapsed Time.."+(endTime-startTime));
+
+		//New Date Time
+		long startTime2=System.nanoTime();
+		LocalDate newdate=LocalDate.now();
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("YYYY-MM-dd");
+		String formatdate2=newdate.format(dtf);
+		System.out.println(formatdate2);
+		long endTime2=System.nanoTime();
+		System.out.println("Elapsed Time2.."+(endTime2-startTime2));
+
+	}
+}
+
+
+
+package walmart;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class StringPerformanceDemo {
+	public static void main(String[] args) {
+		String s1="hello";
+		//hello is stored in the string pool
+		String s2="hello";
+		//s2 refers the same "hello" in the pool
+		System.out.println(s1==s2);
+
+		String s3=new String("hello");
+		System.out.println(s1==s3);
+
+		System.out.println(s1.equals(s3));
+
+		String s4=new String("hello").intern();
+		//will force the string to be picked up from pool
+		System.out.println("........................");
+		System.out.println(s1==s4);
+		System.out.println("........................");
+		String temp1="hello world";
+		String temp2=temp1;
+		temp1=temp1+"new world..";
+		System.out.println(temp2);
+
+		//StringBuilder(Non Synchronized) and StringBuffer (Synchronized)
+		//StringBuffer - Performance drop
+		//SYNCHRONIZED KEYWORD IS BAD FOR PERFORMANCE
+		//LOCKS INTRODUCED AFTER JDK8 -USE THEM TO SOLVE
+				String s="hello"+ "world";
+		s=String.join("hello", "world");//more optimized than + sign
+
+		s=String.format("the value is...%d", 10000);
+
+		System.out.println(s);
+
+		List<String> strs=Arrays.asList("a","b","c","d");
+		strs.stream().forEach(System.out::println);
+
+		strs.parallelStream().forEach(System.out::println);
+
+
+	}
+}
+
+
+
+
+
+
+package walmart;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class AtomicDemo {
+	private static int na=0;
+	private static AtomicInteger ai=new AtomicInteger(0);
+	public static void main(String[] args) {
+		AtomicDemo obj=new AtomicDemo();
+		long startTime=System.nanoTime();
+			obj.incrementNonAtomic();
+		long endTime=System.nanoTime();
+		System.out.println("Non Atomic..Elapsed Time.."+(endTime-startTime));
+
+	    startTime=System.nanoTime();
+			obj.incrementAtomic();
+		endTime=System.nanoTime();
+	    System.out.println("Atomic..Elapsed Time.."+(endTime-startTime));
+
+	}
+		public void incrementNonAtomic() {
+		Runnable r=()->{
+			for(int i=0;i<1000;i++) {
+				synchronized(this) {
+					na++;
+				}
+			}
+		};
+		Thread t1=new Thread(r);
+		Thread t2=new Thread(r);
+		t1.start();
+		t2.start();
+		try {
+			t1.join();
+			t2.join();
+		}catch(Exception e) {}
+		System.out.println("Incremented na Value...:"+na);
+	}
+
+		public void incrementAtomic() {
+		Runnable r=()->{
+			for(int i=0;i<1000;i++) {
+				ai.incrementAndGet();//automatically increments the value
+			}
+		};
+		Thread t1=new Thread(r);
+		Thread t2=new Thread(r);
+		t1.start();
+		t2.start();
+		try {
+			t1.join();
+			t2.join();
+		}catch(Exception e) {}
+		System.out.println("Incremented ai Value...:"+ai.get());
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+package walmart;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+class User{
+	private String name;
+	public User(String name) {
+		this.name=name;
+	}
+	public String getName() {
+		return this.name;
+	}
+}
+public class AtomicDemo2 {
+	private static User user=new User("non synch");
+
+	private static AtomicReference<User> atomuser
+		=new AtomicReference<User>(new User("auto sync user"));
+	public static void main(String[] args) {
+		AtomicDemo2 obj=new AtomicDemo2();
+		long startTime=System.nanoTime();
+			obj.incrementNonAtomic();
+		long endTime=System.nanoTime();
+		System.out.println("Non Atomic..Elapsed Time.."+(endTime-startTime));
+
+	    startTime=System.nanoTime();
+			obj.incrementAtomic();
+		endTime=System.nanoTime();
+	    System.out.println("Atomic..Elapsed Time.."+(endTime-startTime));
+
+	}
+	public void incrementNonAtomic() {
+		Runnable r=()->{
+			for(int i=0;i<1000;i++) {
+				synchronized(this) {
+					User newuser=
+						new User(Thread.currentThread().getName()+"user....");
+					user=newuser;
+				}
+			}
+		};
+		Thread t1=new Thread(r);
+		Thread t2=new Thread(r);
+		t1.start();
+		t2.start();
+		try {
+			t1.join();
+			t2.join();
+		}catch(Exception e) {}
+		System.out.println("Final Non Atomic Name value..:"+user.getName());
+	}
+	public void incrementAtomic() {
+		Runnable r=()->{
+			for(int i=0;i<1000;i++) {
+				User newuser=new User(Thread.currentThread().getName()+"user..");
+				atomuser.set(newuser);
+			}
+		};
+		Thread t1=new Thread(r);
+		Thread t2=new Thread(r);
+		t1.start();
+		t2.start();
+		try {
+			t1.join();
+			t2.join();
+		}catch(Exception e) {}
+		System.out.println("Incremented ai Value...:"+atomuser.get().getName());
+	}
+}
+
+
+
+
+
+
+=======================Garbage collection======
+
+package walmart;
+
+public class GcDemo {
+	public static void main(String[] args) {
+		System.out.println
+		("Before Grand Father Birth..:"+Runtime.getRuntime().freeMemory());
+		GrandFather gf=new GrandFather();
+		System.out.println
+		("After Grand Father Birth..:"+Runtime.getRuntime().freeMemory());
+
+		gf=null;
+		System.out.println
+		("After Grand Father Death..:"+Runtime.getRuntime().freeMemory());
+
+		System.gc();
+
+		System.out.println
+		("After GC..:"+Runtime.getRuntime().freeMemory());
+
+
+	}
+}
+
+class GrandFather{
+	private String gold="under the tree";
+	String life=new String();
+	public GrandFather() {
+		for(int i=0;i<10000;i++) {
+			life=new String(""+i);
+		}
+	}
+}
