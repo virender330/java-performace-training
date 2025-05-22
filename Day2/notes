@@ -160,5 +160,11 @@ Which version of gc is running java -XX:+PrintCommandLineFlags -version
 -XX:+SerialGC
 
 
+one garbage guy - serial
+as town grows more garbage - parallel
 
+in first two cases person comes and take garbage and now they come with big vechile
+so pause time is increased but more garbage is collected.
+
+they come at night when there is no traffic
 
